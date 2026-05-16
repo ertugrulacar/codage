@@ -129,7 +129,6 @@ line() {
   local len="${#text}"
   local pad=$((content_width - len))
   if [ "$pad" -lt 0 ]; then
-    text="${text:0:content_width}"
     pad=0
   fi
   printf '│ %s%s │\n' "$text" "$(repeat_char ' ' "$pad")"
@@ -145,9 +144,26 @@ metric_line() {
   local value="$3"
   local reset_label="$4"
   local usage_bar
+  local label_width
+  local value_width
+  local visible_len
+  local pad
   usage_bar="$(bar "$percent")"
   printf -v text '%-14s %s %3s%%  %-10s %s' "$label" "$usage_bar" "$percent" "$value" "$reset_label"
-  line "$text"
+  label_width=14
+  if [ "${#label}" -gt "$label_width" ]; then
+    label_width="${#label}"
+  fi
+  value_width=10
+  if [ "${#value}" -gt "$value_width" ]; then
+    value_width="${#value}"
+  fi
+  visible_len=$((label_width + 1 + bar_width + 1 + 4 + 2 + value_width + 1 + ${#reset_label}))
+  pad=$((content_width - visible_len))
+  if [ "$pad" -lt 0 ]; then
+    pad=0
+  fi
+  printf '│ %s%s │\n' "$text" "$(repeat_char ' ' "$pad")"
 }
 
 five_percent="$(normalize_percent "$five_percent")"
