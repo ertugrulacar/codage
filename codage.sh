@@ -1,6 +1,3 @@
-Aşağıdaki tek installer SH dosyası; Linux/macOS için kurar, `codage` komutunu ekler, shell rc dosyalarını günceller ve Codex skill’i `~/.agents/skills/usage` altına yazar. Credential hardcode yok; sadece makinedeki `codex app-server` üzerinden mevcut Codex oturumunu kullanır.
-
-```sh
 #!/usr/bin/env sh
 set -eu
 
@@ -440,4 +437,3 @@ say "  fish: source $FISH_CONFIG"
 say ""
 say "Then run:"
 say "  codage"
-```
